@@ -97,7 +97,7 @@ export const AssumptionsScene: React.FC<Props> = ({ script, assumptions }) => {
                     {formatValue(a.range.low)}
                   </span>
                   <span style={{ color: "rgba(148,163,184,0.5)", fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5 }}>
-                    conservative → optimistic
+                    low → high
                   </span>
                   <span style={{ color: TOKENS.green, fontSize: 16, fontWeight: 600 }}>
                     {formatValue(a.range.high)}

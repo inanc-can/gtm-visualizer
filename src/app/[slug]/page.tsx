@@ -136,7 +136,7 @@ function KPISection({ data }: { data: GTMData }) {
 function ScenarioSection({ data }: { data: GTMData }) {
   const scenarios = [
     {
-      label: "Conservative",
+      label: "Low",
       icon: "⚠️",
       accentBorder: "border-t-4 border-t-amber-500",
       bg: "bg-amber-50/50 dark:bg-amber-950/20",
@@ -160,7 +160,7 @@ function ScenarioSection({ data }: { data: GTMData }) {
       featured: true,
     },
     {
-      label: "Optimistic",
+      label: "High",
       icon: "🚀",
       accentBorder: "border-t-4 border-t-green-500",
       bg: "bg-green-50/50 dark:bg-green-950/20",
@@ -244,9 +244,9 @@ function AssumptionsSection({ data }: { data: GTMData }) {
               <TableRow>
                 <TableHead>Assumption</TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead className="text-right">Conservative</TableHead>
+                <TableHead className="text-right">Low</TableHead>
                 <TableHead className="text-center">Range</TableHead>
-                <TableHead>Optimistic</TableHead>
+                <TableHead>High</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -84,7 +84,7 @@ const narrationStyle: React.CSSProperties = {
 export const FinancialRangeScene: React.FC<Props> = ({ script, financials }) => {
   const scenarios: ScenarioRow[] = [
     {
-      label: "Conservative",
+      label: "Low",
       icon: "⚠️",
       color: TOKENS.amber,
       roi: `${financials.roi.low}x`,
@@ -102,7 +102,7 @@ export const FinancialRangeScene: React.FC<Props> = ({ script, financials }) => 
       barPercent: 72,
     },
     {
-      label: "Optimistic",
+      label: "High",
       icon: "🚀",
       color: TOKENS.green,
       roi: `${financials.roi.high}x`,

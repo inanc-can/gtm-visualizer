@@ -89,7 +89,7 @@ export const fallbackScript: VideoScript = {
       title: "Scenario Analysis",
       durationSeconds: 7,
       narration:
-        "From conservative to optimistic — every scenario shows positive returns. The range analysis gives decision-makers confidence in the investment thesis.",
+        "From low to high — every scenario shows positive returns. The range analysis gives decision-makers confidence in the investment thesis.",
       visualCues: [
         "Three scenario columns animate",
         "Bar charts grow sequentially",
