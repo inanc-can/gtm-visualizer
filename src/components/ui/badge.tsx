@@ -34,13 +34,16 @@ function Badge({
 }: React.ComponentProps<"span"> &
   VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
   const Comp = asChild ? Slot.Root : "span"
+  const { style, ...rest } = props as any
+  const mergedStyle = { borderRadius: "var(--radius-pill)", ...(style || {}) }
 
   return (
     <Comp
       data-slot="badge"
       data-variant={variant}
       className={cn(badgeVariants({ variant }), className)}
-      {...props}
+      style={mergedStyle}
+      {...rest}
     />
   )
 }

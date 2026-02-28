@@ -7,6 +7,7 @@ import {
   interpolate,
 } from "remotion";
 import { FadeIn } from "../components/FadeIn";
+import { colors as TOKENS, radialGradientHex } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 
 interface Props {
@@ -49,7 +50,7 @@ export const CTAScene: React.FC<Props> = ({ script }) => {
           width: 600,
           height: 600,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)",
+          background: radialGradientHex(TOKENS.mainPurple, 0.15),
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
@@ -60,7 +61,7 @@ export const CTAScene: React.FC<Props> = ({ script }) => {
       <FadeIn delay={0} direction="down" distance={10}>
         <p
           style={{
-            color: "#3B82F6",
+            color: TOKENS.mainPurple,
             fontSize: 16,
             fontWeight: 600,
             textTransform: "uppercase",
@@ -94,14 +95,14 @@ export const CTAScene: React.FC<Props> = ({ script }) => {
         <div
           style={{
             marginTop: 50,
-            background: "#3B82F6",
+            background: TOKENS.mainPurple,
             borderRadius: 14,
             padding: "18px 60px",
             transform: `scale(${btnScale})`,
-            boxShadow: "0 20px 60px rgba(59,130,246,0.3)",
+            boxShadow: `0 20px 60px ${TOKENS.mainPurple}33`,
           }}
         >
-          <span style={{ color: "#fff", fontSize: 22, fontWeight: 700 }}>Book a Demo</span>
+          <span style={{ color: TOKENS.white, fontSize: 22, fontWeight: 700 }}>Book a Demo</span>
         </div>
       </FadeIn>
 
@@ -129,9 +130,9 @@ export const CTAScene: React.FC<Props> = ({ script }) => {
             gap: 12,
           }}
         >
-          <div style={{ transform: `scale(${pulse})` }}>
+            <div style={{ transform: `scale(${pulse})` }}>
             <svg viewBox="0 0 32 32" width={48} height={48} fill="none">
-              <circle cx="16" cy="16" r="14" fill="#3B82F6" />
+              <circle cx="16" cy="16" r="14" fill={TOKENS.mainPurple} />
               <path
                 d="M10 16C10 12.6863 12.6863 10 16 10C19.3137 10 22 12.6863 22 16"
                 stroke="white"

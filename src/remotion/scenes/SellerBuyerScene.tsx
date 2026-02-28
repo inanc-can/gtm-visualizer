@@ -7,6 +7,7 @@ import {
   interpolate,
 } from "remotion";
 import { FadeIn } from "../components/FadeIn";
+import { colors as TOKENS } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 
 interface Props {
@@ -62,7 +63,7 @@ export const SellerBuyerScene: React.FC<Props> = ({
       <FadeIn delay={0} direction="down" distance={15}>
         <p
           style={{
-            color: "#3B82F6",
+            color: TOKENS.mainPurple,
             fontSize: 16,
             fontWeight: 600,
             textTransform: "uppercase",
@@ -86,15 +87,15 @@ export const SellerBuyerScene: React.FC<Props> = ({
         <div
           style={{
             transform: `translateX(${sellerX}px)`,
-            background: "rgba(59,130,246,0.12)",
-            border: "1px solid rgba(59,130,246,0.3)",
+            background: `rgba(59,130,246,0.12)`,
+            border: `1px solid rgba(59,130,246,0.3)`,
             borderRadius: 16,
             padding: "28px 48px",
           }}
         >
-          <span
+              <span
             style={{
-              color: "#93C5FD",
+              color: TOKENS.mainPurple,
               fontSize: 36,
               fontWeight: 700,
             }}
@@ -106,8 +107,8 @@ export const SellerBuyerScene: React.FC<Props> = ({
         {/* Animated arrow */}
         <div style={{ transform: `scaleX(${arrowScale})`, width: arrowWidth, position: "relative" }}>
           <svg viewBox="0 0 120 40" width={120} height={40} fill="none">
-            <line x1="0" y1="20" x2="100" y2="20" stroke="#3B82F6" strokeWidth="3" strokeLinecap="round" />
-            <polygon points="95,10 115,20 95,30" fill="#3B82F6" />
+            <line x1="0" y1="20" x2="100" y2="20" stroke={TOKENS.mainPurple} strokeWidth="3" strokeLinecap="round" />
+            <polygon points="95,10 115,20 95,30" fill={TOKENS.mainPurple} />
           </svg>
         </div>
 
@@ -115,15 +116,15 @@ export const SellerBuyerScene: React.FC<Props> = ({
         <div
           style={{
             transform: `translateX(${buyerX}px)`,
-            background: "rgba(16,185,129,0.12)",
-            border: "1px solid rgba(16,185,129,0.3)",
+            background: `rgba(16,185,129,0.12)`,
+            border: `1px solid rgba(16,185,129,0.3)`,
             borderRadius: 16,
             padding: "28px 48px",
           }}
         >
-          <span
+              <span
             style={{
-              color: "#6EE7B7",
+              color: TOKENS.green,
               fontSize: 36,
               fontWeight: 700,
             }}

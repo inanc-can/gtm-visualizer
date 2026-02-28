@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { FadeIn } from "../components/FadeIn";
+import { colors as TOKENS, linearGradient } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 
 interface Props {
@@ -43,14 +44,14 @@ export const ProductScene: React.FC<Props> = ({
       <FadeIn delay={0} direction="down" distance={10}>
         <div
           style={{
-            background: "rgba(59,130,246,0.15)",
-            border: "1px solid rgba(59,130,246,0.3)",
-            borderRadius: 20,
-            padding: "8px 24px",
-            marginBottom: 30,
-          }}
+              background: `rgba(59,130,246,0.15)`,
+              border: `1px solid rgba(59,130,246,0.3)`,
+              borderRadius: 20,
+              padding: "8px 24px",
+              marginBottom: 30,
+            }}
         >
-          <span style={{ color: "#93C5FD", fontSize: 14, fontWeight: 600, textTransform: "uppercase", letterSpacing: 2 }}>
+            <span style={{ color: TOKENS.mainPurple, fontSize: 14, fontWeight: 600, textTransform: "uppercase", letterSpacing: 2 }}>
             Product
           </span>
         </div>
@@ -76,7 +77,7 @@ export const ProductScene: React.FC<Props> = ({
         style={{
           width: lineWidth,
           height: 3,
-          background: "linear-gradient(90deg, transparent, #3B82F6, transparent)",
+          background: linearGradient("transparent", TOKENS.mainPurple, "transparent"),
           marginTop: 20,
           marginBottom: 30,
           borderRadius: 2,

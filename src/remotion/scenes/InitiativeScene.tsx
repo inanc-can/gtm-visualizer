@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { FadeIn } from "../components/FadeIn";
+import { colors as TOKENS } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 
 interface Props {
@@ -30,8 +31,8 @@ export const InitiativeScene: React.FC<Props> = ({
       <FadeIn delay={0} direction="down" distance={10}>
         <div
           style={{
-            background: "rgba(139,92,246,0.15)",
-            border: "1px solid rgba(139,92,246,0.3)",
+            background: `rgba(139,92,246,0.15)`,
+            border: `1px solid rgba(139,92,246,0.3)`,
             borderRadius: 20,
             padding: "8px 24px",
             marginBottom: 30,
@@ -39,7 +40,7 @@ export const InitiativeScene: React.FC<Props> = ({
         >
           <span
             style={{
-              color: "#C4B5FD",
+              color: TOKENS.accentPurple,
               fontSize: 14,
               fontWeight: 600,
               textTransform: "uppercase",
@@ -84,7 +85,7 @@ export const InitiativeScene: React.FC<Props> = ({
                   width: 12,
                   height: 12,
                   borderRadius: 6,
-                  background: ["#3B82F6", "#10B981", "#8B5CF6"][i % 3],
+                  background: [TOKENS.mainPurple, TOKENS.green, TOKENS.accentPurple][i % 3],
                   flexShrink: 0,
                 }}
               />

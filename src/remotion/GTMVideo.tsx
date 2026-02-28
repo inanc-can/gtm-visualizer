@@ -1,6 +1,10 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { loadFont } from "@remotion/google-fonts/Inter";
+
+// Pre-load Inter font for all scenes — blocks Remotion rendering until ready
+loadFont("normal", { weights: ["400", "600", "700", "800"], subsets: ["latin"] });
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
