@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { InitiativeSection } from "@/components/InitiativeSection";
+import { MethodologySection } from "@/components/MethodologySection";
 import { ctaData } from "@/lib/gtm-data";
 import type { GTMData, Assumption } from "@/lib/gtm-data";
 import Link from "next/link";
@@ -258,7 +259,7 @@ function AssumptionsSection({ data }: { data: GTMData }) {
                     <TableCell className="align-top py-4 max-w-0">
                       <div className="group relative">
                         <span id={`assump-${i}-label`} tabIndex={0} role="button" aria-describedby={`assump-${i}-tooltip`} className="block text-muted-foreground text-sm truncate cursor-default">{a.description}</span>
-                        <div id={`assump-${i}-tooltip`} className="pointer-events-none invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-0 top-0 z-50 w-[480px] max-w-[60vw] rounded-lg border bg-popover text-popover-foreground shadow-lg p-3 text-sm leading-relaxed whitespace-normal break-words">
+                        <div id={`assump-${i}-tooltip`} className="pointer-events-none invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-0 top-0 z-50 w-120 max-w-[60vw] rounded-lg border bg-popover text-popover-foreground shadow-lg p-3 text-sm leading-relaxed whitespace-normal wrap-break-word">
                           {a.description}
                         </div>
                       </div>
@@ -402,6 +403,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
           buyerName={data.buyer.name}
         />
         <AssumptionsSection data={data} />
+        {data.methodology && <MethodologySection methodology={data.methodology} />}
         <EmailCapture />
       </main>
 

@@ -40,6 +40,17 @@ export interface Assumption {
   range: { low: number; high: number };
 }
 
+export interface MethodologyStep {
+  title: string;
+  description: string;
+}
+
+export interface Methodology {
+  summary: string;
+  steps: MethodologyStep[];
+  dataSources: string[];
+}
+
 export interface GTMData {
   seller: Seller;
   buyer: Buyer;
@@ -47,6 +58,7 @@ export interface GTMData {
   initiative: Initiative;
   financials: Financials;
   assumptions: Assumption[];
+  methodology?: Methodology;
 }
 
 // ---------------------------------------------------------------------------
