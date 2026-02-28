@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/table";
 import { InitiativeSection } from "@/components/InitiativeSection";
 import { MethodologySection } from "@/components/MethodologySection";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { ctaData } from "@/lib/gtm-data";
 import type { GTMData, Assumption } from "@/lib/gtm-data";
 import Link from "next/link";
@@ -57,6 +59,14 @@ function formatAssumptionValue(value: number): string {
 // Hero
 // ---------------------------------------------------------------------------
 
+function Markdown({ children }: { children: string }) {
+  return (
+    <div className="prose dark:prose-invert max-w-none prose-headings:mt-0 prose-headings:mb-0 prose-p:leading-relaxed prose-p:text-muted-foreground">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{children}</ReactMarkdown>
+    </div>
+  );
+}
+
 function HeroSection({ data }: { data: GTMData }) {
   return (
     <section className="text-center space-y-6">
@@ -70,9 +80,9 @@ function HeroSection({ data }: { data: GTMData }) {
       <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-balance">
         {data.product.name}
       </h1>
-      <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-        {data.product.description}
-      </p>
+      <div className="max-w-3xl mx-auto">
+        <Markdown>{data.product.description}</Markdown>
+      </div>
       <div className="pt-2">
         <Badge className="bg-primary text-primary-foreground text-sm px-4 py-1">
           Initiative: {data.initiative.name}
