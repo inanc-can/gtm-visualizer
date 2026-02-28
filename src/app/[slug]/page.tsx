@@ -364,9 +364,6 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             <span className="text-lg font-bold">Bayes Case</span>
           </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild className="hidden sm:flex">
-              <Link href="https://app.bayescase.com/login">Log in</Link>
-            </Button>
             <Button asChild>
               <Link href="https://app.bayescase.com/signup">Start free trial</Link>
             </Button>

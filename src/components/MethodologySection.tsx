@@ -98,7 +98,6 @@ export function MethodologySection({ methodology }: Props) {
               </CardContent>
             </Card>
           )}
-        </div>
       </div>
     </section>
   );
