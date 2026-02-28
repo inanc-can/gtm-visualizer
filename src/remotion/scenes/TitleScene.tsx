@@ -1,11 +1,58 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { FadeIn } from "../components/FadeIn";
+import { colors, linearGradient, radialGradientHex } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 
 interface Props {
   script: SceneScript;
 }
+
+// ---------------------------------------------------------------------------
+// Static style objects — hoisted to avoid recreation every frame (30fps)
+// ---------------------------------------------------------------------------
+const sceneFill: React.CSSProperties = {
+  background: `linear-gradient(135deg, ${colors.slate900} 0%, #1a1a3e 40%, #0d1b2a 100%)`,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontFamily: "Inter, system-ui, sans-serif",
+};
+
+const titleStyle: React.CSSProperties = {
+  color: "#fff",
+  fontSize: 72,
+  fontWeight: 800,
+  letterSpacing: -2,
+  textAlign: "center",
+  margin: 0,
+  lineHeight: 1.1,
+};
+
+const subtitleBaseStyle: React.CSSProperties = {
+  color: "rgba(148,163,184,0.9)",
+  fontSize: 28,
+  fontWeight: 400,
+  marginTop: 16,
+  letterSpacing: 2,
+  textTransform: "uppercase",
+  textAlign: "center",
+  minHeight: 40,
+};
+
+const narrationBaseStyle: React.CSSProperties = {
+  color: "rgba(148,163,184,0.6)",
+  fontSize: 20,
+  fontWeight: 400,
+  marginTop: 50,
+  textAlign: "center",
+  maxWidth: 700,
+  lineHeight: 1.5,
+  minHeight: 60,
+};
+
+// ---------------------------------------------------------------------------
 
 export const TitleScene: React.FC<Props> = ({ script }) => {
   const frame = useCurrentFrame();
@@ -55,16 +102,7 @@ export const TitleScene: React.FC<Props> = ({ script }) => {
     : 0;
 
   return (
-    <AbsoluteFill
-      style={{
-        background: "linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 40%, #0d1b2a 100%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Inter, system-ui, sans-serif",
-      }}
-    >
+    <AbsoluteFill style={sceneFill}>
       {/* Background glow */}
       <div
         style={{
@@ -72,7 +110,7 @@ export const TitleScene: React.FC<Props> = ({ script }) => {
           width: 500,
           height: 500,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)",
+          background: radialGradientHex(colors.mainPurple, 0.3),
           opacity: glowOpacity,
           top: "50%",
           left: "50%",
@@ -88,7 +126,7 @@ export const TitleScene: React.FC<Props> = ({ script }) => {
         }}
       >
         <svg viewBox="0 0 32 32" width={100} height={100} fill="none">
-          <circle cx="16" cy="16" r="14" fill="#3B82F6" />
+          <circle cx="16" cy="16" r="14" fill={colors.mainPurple} />
           <path
             d="M10 16C10 12.6863 12.6863 10 16 10C19.3137 10 22 12.6863 22 16"
             stroke="white"
@@ -101,51 +139,19 @@ export const TitleScene: React.FC<Props> = ({ script }) => {
 
       {/* Title */}
       <FadeIn delay={10} direction="up" distance={40}>
-        <h1
-          style={{
-            color: "#fff",
-            fontSize: 72,
-            fontWeight: 800,
-            letterSpacing: -2,
-            textAlign: "center",
-            margin: 0,
-            lineHeight: 1.1,
-          }}
-        >
+        <h1 style={titleStyle}>
           Bayes Case
         </h1>
       </FadeIn>
 
       {/* Subtitle — typewriter effect */}
-      <p
-        style={{
-          color: "rgba(148,163,184,0.9)",
-          fontSize: 28,
-          fontWeight: 400,
-          marginTop: 16,
-          letterSpacing: 2,
-          textTransform: "uppercase",
-          textAlign: "center",
-          minHeight: 40,
-        }}
-      >
+      <p style={subtitleBaseStyle}>
         <span>{typedSubtitle}</span>
         <span style={{ opacity: cursorOpacity }}>▌</span>
       </p>
 
       {/* Narration — typewriter effect */}
-      <p
-        style={{
-          color: "rgba(148,163,184,0.6)",
-          fontSize: 20,
-          fontWeight: 400,
-          marginTop: 50,
-          textAlign: "center",
-          maxWidth: 700,
-          lineHeight: 1.5,
-          minHeight: 60,
-        }}
-      >
+      <p style={narrationBaseStyle}>
         <span>{typedNarration}</span>
         {frame >= NARRATION_DELAY && narrationChars < narrationText.length && (
           <span style={{ opacity: narrationCursorOpacity }}>▌</span>

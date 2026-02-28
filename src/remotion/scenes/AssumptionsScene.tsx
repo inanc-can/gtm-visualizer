@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill } from "remotion";
 import { FadeIn } from "../components/FadeIn";
 import { AnimatedBar } from "../components/AnimatedBar";
+import { colors as TOKENS, linearGradient, radialGradientHex } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 import type { Assumption } from "@/lib/gtm-data";
 
@@ -19,7 +20,7 @@ function formatValue(value: number): string {
 }
 
 export const AssumptionsScene: React.FC<Props> = ({ script, assumptions }) => {
-  const colors = ["#3B82F6", "#10B981", "#8B5CF6", "#F59E0B"];
+  const colors = [TOKENS.mainPurple, TOKENS.green, TOKENS.accentPurple, TOKENS.amber];
 
   return (
     <AbsoluteFill
@@ -37,7 +38,7 @@ export const AssumptionsScene: React.FC<Props> = ({ script, assumptions }) => {
       <FadeIn delay={0} direction="down" distance={15}>
         <p
           style={{
-            color: "#F59E0B",
+            color: TOKENS.amber,
             fontSize: 16,
             fontWeight: 600,
             textTransform: "uppercase",
@@ -76,29 +77,29 @@ export const AssumptionsScene: React.FC<Props> = ({ script, assumptions }) => {
           return (
             <FadeIn key={i} delay={10 + i * 12} direction={i % 2 === 0 ? "left" : "right"} distance={40}>
               <div
-                style={{
-                  background: `${color}08`,
-                  border: `1px solid ${color}25`,
-                  borderLeft: `4px solid ${color}`,
-                  borderRadius: 14,
-                  padding: "24px 32px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 12,
-                }}
-              >
+                  style={{
+                    background: `${color}08`,
+                    border: `1px solid ${color}25`,
+                    borderLeft: `4px solid ${color}`,
+                    borderRadius: 14,
+                    padding: "24px 32px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 12,
+                  }}
+                >
                 <span style={{ color: "#E2E8F0", fontSize: 20, fontWeight: 700 }}>
                   {a.name}
                 </span>
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ color: "#F59E0B", fontSize: 16, fontWeight: 600 }}>
+                  <span style={{ color: TOKENS.amber, fontSize: 16, fontWeight: 600 }}>
                     {formatValue(a.range.low)}
                   </span>
                   <span style={{ color: "rgba(148,163,184,0.5)", fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5 }}>
                     conservative → optimistic
                   </span>
-                  <span style={{ color: "#10B981", fontSize: 16, fontWeight: 600 }}>
+                  <span style={{ color: TOKENS.green, fontSize: 16, fontWeight: 600 }}>
                     {formatValue(a.range.high)}
                   </span>
                 </div>
@@ -106,7 +107,7 @@ export const AssumptionsScene: React.FC<Props> = ({ script, assumptions }) => {
                 <AnimatedBar
                   widthPercent={100}
                   height={8}
-                  color="linear-gradient(90deg, #F59E0B, #3B82F6, #10B981)"
+                  color={linearGradient(TOKENS.amber, TOKENS.mainPurple, TOKENS.green)}
                   delay={20 + i * 12}
                 />
               </div>

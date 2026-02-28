@@ -9,8 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@remotion/player": "4.0.430",
-    "@remotion/transitions": "^4.0.430",
+    "@remotion/google-fonts": "^4.0.429",
+    "@remotion/player": "4.0.429",
+    "@remotion/transitions": "^4.0.429",
     "@tailwindcss/typography": "^0.5.19",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -23,7 +24,7 @@
     "react-markdown": "^10.1.0",
     "recharts": "^2.15.4",
     "remark-gfm": "^4.0.1",
-    "remotion": "4.0.430",
+    "remotion": "4.0.429",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
@@ -39,11 +40,15 @@
     "typescript": "^5"
   },
   "overrides": {
+    "remotion": "4.0.429",
     "@remotion/player": {
-      "remotion": "4.0.430"
+      "remotion": "4.0.429"
     },
     "@remotion/transitions": {
-      "remotion": "4.0.430"
+      "remotion": "4.0.429"
     }
+  },
+  "resolutions": {
+    "remotion": "4.0.429"
   }
 }

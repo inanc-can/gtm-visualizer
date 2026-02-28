@@ -14,9 +14,10 @@ import { InitiativeSection } from "@/components/InitiativeSection";
 import { ctaData } from "@/lib/gtm-data";
 import type { GTMData, Assumption } from "@/lib/gtm-data";
 import Link from "next/link";
-import { VideoPlayer } from "@/components/VideoPlayer";
+import { LazyVideoPlayer } from "@/components/LazyVideoPlayer";
 import { computeFinancials as computeFinancialsShared, financialsAreEmpty } from "@/lib/compute-financials";
 import { buildFallbackScript } from "@/lib/video-agent";
+import { colors as TOKENS } from "@/style/tokens";
 
 const S3_BASE =
   "https://bayescase-dev-hackathonbucketbucket-cbsuchsr.s3.eu-central-1.amazonaws.com";
@@ -51,8 +52,6 @@ function formatAssumptionValue(value: number): string {
   return String(value);
 }
 
-const computeFinancials = computeFinancialsShared;
-
 // ---------------------------------------------------------------------------
 // Hero
 // ---------------------------------------------------------------------------
@@ -67,14 +66,14 @@ function HeroSection({ data }: { data: GTMData }) {
         </svg>
         <Badge variant="outline" className="text-sm px-3 py-1">{data.buyer.name}</Badge>
       </div>
-      <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-balance">
         {data.product.name}
       </h1>
       <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
         {data.product.description}
       </p>
       <div className="pt-2">
-        <Badge className="bg-blue-600 text-white text-sm px-4 py-1">
+        <Badge className="bg-primary text-primary-foreground text-sm px-4 py-1">
           Initiative: {data.initiative.name}
         </Badge>
       </div>
@@ -120,7 +119,7 @@ function KPISection({ data }: { data: GTMData }) {
         <Card key={kpi.label} className={`hover:shadow-lg transition-shadow ${kpi.bg} ${kpi.border}`}>
           <CardContent className="pt-6 pb-6">
             <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">{kpi.label}</p>
-            <p className={`text-5xl font-bold mt-2 mb-1 ${kpi.color}`}>{kpi.value}</p>
+            <p className={`text-5xl font-bold mt-2 mb-1 tabular-nums ${kpi.color}`}>{kpi.value}</p>
             <p className="text-xs text-muted-foreground">{kpi.sub}</p>
           </CardContent>
         </Card>
@@ -177,7 +176,7 @@ function ScenarioSection({ data }: { data: GTMData }) {
     <section>
       <div className="text-center mb-8">
         <Badge variant="outline" className="mb-2">Financial Scenarios</Badge>
-        <h2 className="text-2xl font-bold">Business Case Outcomes</h2>
+        <h2 className="text-2xl font-bold text-balance">Business Case Outcomes</h2>
         <p className="text-muted-foreground mt-1">Three scenarios based on assumption ranges</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-center">
@@ -190,7 +189,7 @@ function ScenarioSection({ data }: { data: GTMData }) {
           >
             <CardContent className={s.featured ? "pt-7 pb-7" : "pt-6 pb-6"}>
               <div className="flex items-center gap-2 mb-5">
-                <span className={s.featured ? "text-3xl" : "text-2xl"}>{s.icon}</span>
+                <span className={s.featured ? "text-3xl" : "text-2xl"} aria-hidden="true">{s.icon}</span>
                 <div>
                   <p className={`font-bold ${s.featured ? "text-lg" : "text-base"} ${s.textColor}`}>{s.label}</p>
                   <p className="text-xs text-muted-foreground">{s.note}</p>
@@ -227,7 +226,7 @@ function AssumptionsSection({ data }: { data: GTMData }) {
     <section className="space-y-6">
       <div className="text-center">
         <Badge variant="outline" className="mb-2">Model Assumptions</Badge>
-        <h2 className="text-2xl font-bold">Key Assumptions</h2>
+        <h2 className="text-2xl font-bold text-balance">Key Assumptions</h2>
         <p className="text-muted-foreground mt-1">Ranges driving the probabilistic business case</p>
       </div>
       <Card>
@@ -258,8 +257,8 @@ function AssumptionsSection({ data }: { data: GTMData }) {
                     <TableCell className="font-semibold align-top py-4">{a.name}</TableCell>
                     <TableCell className="align-top py-4 max-w-0">
                       <div className="group relative">
-                        <span className="block text-muted-foreground text-sm truncate cursor-default">{a.description}</span>
-                        <div className="pointer-events-none invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity duration-150 absolute left-0 top-0 z-50 w-[480px] max-w-[60vw] rounded-lg border bg-popover text-popover-foreground shadow-lg p-3 text-sm leading-relaxed whitespace-normal break-words">
+                        <span id={`assump-${i}-label`} tabIndex={0} role="button" aria-describedby={`assump-${i}-tooltip`} className="block text-muted-foreground text-sm truncate cursor-default">{a.description}</span>
+                        <div id={`assump-${i}-tooltip`} className="pointer-events-none invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-0 top-0 z-50 w-[480px] max-w-[60vw] rounded-lg border bg-popover text-popover-foreground shadow-lg p-3 text-sm leading-relaxed whitespace-normal break-words">
                           {a.description}
                         </div>
                       </div>
@@ -297,14 +296,14 @@ function EmailCapture() {
       <Card className="bg-linear-to-br from-slate-900 to-slate-800 text-white border-0 overflow-hidden">
         <CardContent className="py-14 px-8 md:px-14">
           <div className="max-w-2xl mx-auto text-center mb-8">
-            <p className="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-3">Ready to close faster?</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">{cta.headline}</h2>
+            <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-3">Ready to close faster?</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 text-balance">{cta.headline}</h2>
             <p className="text-slate-300 text-lg">{cta.subheadline}</p>
           </div>
           <ul className="max-w-lg mx-auto space-y-4 mb-10">
             {bullets.map((b) => (
               <li key={b.text} className="flex items-start gap-3 text-slate-200 text-base">
-                <span className="text-lg mt-0.5 shrink-0">{b.icon}</span>
+                <span className="text-lg mt-0.5 shrink-0" aria-hidden="true">{b.icon}</span>
                 <span className="leading-relaxed">{b.text}</span>
               </li>
             ))}
@@ -313,7 +312,7 @@ function EmailCapture() {
             <Button
               asChild
               size="lg"
-              className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-6 text-base font-semibold rounded-xl shadow-lg shadow-blue-900/40"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-base font-semibold rounded-xl shadow-lg"
             >
               <Link href={cta.demoUrl}>Book a Demo</Link>
             </Button>
@@ -345,7 +344,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!raw!.seller?.name || !raw!.product?.name) notFound();
 
   const data: GTMData = financialsAreEmpty(raw!.financials)
-    ? { ...raw!, financials: computeFinancials(raw!.assumptions) }
+    ? { ...raw!, financials: computeFinancialsShared(raw!.assumptions) }
     : raw!;
 
   // Build script instantly from GTM data — no LLM call
@@ -356,8 +355,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       <header className="border-b">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="14" fill="#3B82F6" />
+            <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="16" cy="16" r="14" fill={TOKENS.mainPurple} />
               <path d="M10 16C10 12.6863 12.6863 10 16 10C19.3137 10 22 12.6863 22 16" stroke="white" strokeWidth="2" strokeLinecap="round" />
               <circle cx="16" cy="20" r="3" fill="white" />
             </svg>
@@ -380,10 +379,10 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         {/* ---- Remotion Video — auto-generates on page load ---- */}
         <section className="space-y-4">
           <div className="text-center space-y-2">
-            <Badge className="bg-blue-600/15 text-blue-400 border-blue-600/30">
+            <Badge className="bg-primary/15 text-primary border-primary/30">
               Powered by Bayes Case
             </Badge>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-balance">
               GTM Assessment in Motion
             </h2>
             <p className="text-sm text-muted-foreground max-w-xl mx-auto">
@@ -392,7 +391,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
               {data.buyer.name} assessment.
             </p>
           </div>
-          <VideoPlayer data={data} initialScript={initialScript} />
+          <LazyVideoPlayer data={data} initialScript={initialScript} />
         </section>
 
         <KPISection data={data} />
@@ -410,8 +409,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <svg viewBox="0 0 32 32" className="h-6 w-6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="14" fill="#3B82F6" />
+              <svg viewBox="0 0 32 32" className="h-6 w-6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="16" cy="16" r="14" fill={TOKENS.mainPurple} />
                 <path d="M10 16C10 12.6863 12.6863 10 16 10C19.3137 10 22 12.6863 22 16" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 <circle cx="16" cy="20" r="3" fill="white" />
               </svg>

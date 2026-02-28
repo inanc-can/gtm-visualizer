@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { colors, linearGradient } from "@/style/tokens";
 
 interface AnimatedBarProps {
   /** Target width percentage (0–100) */
@@ -18,7 +19,7 @@ interface AnimatedBarProps {
 export const AnimatedBar: React.FC<AnimatedBarProps> = ({
   widthPercent,
   height = 28,
-  color = "linear-gradient(90deg, #3B82F6, #10B981)",
+  color = linearGradient(colors.mainPurple, colors.green),
   delay = 0,
   label,
   style,
@@ -67,8 +68,8 @@ export const AnimatedBar: React.FC<AnimatedBarProps> = ({
       >
         {label && width > 15 && (
           <span
-            style={{
-              color: "#fff",
+              style={{
+                color: colors.white,
               fontSize: 12,
               fontWeight: 600,
               whiteSpace: "nowrap",

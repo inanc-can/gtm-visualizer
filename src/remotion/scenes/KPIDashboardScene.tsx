@@ -3,6 +3,7 @@ import { AbsoluteFill } from "remotion";
 import { FadeIn } from "../components/FadeIn";
 import { AnimatedCounter } from "../components/AnimatedCounter";
 import { AnimatedBar } from "../components/AnimatedBar";
+import { colors as TOKENS, linearGradient } from "@/style/tokens";
 import type { SceneScript } from "@/lib/video-script";
 import type { Financials } from "@/lib/gtm-data";
 
@@ -10,6 +11,65 @@ interface Props {
   script: SceneScript;
   financials: Financials;
 }
+
+// ---------------------------------------------------------------------------
+// Static style objects — hoisted to avoid recreation every frame (30fps)
+// ---------------------------------------------------------------------------
+const sceneFill: React.CSSProperties = {
+  background: "linear-gradient(135deg, #0a0a1a 0%, #111827 50%, #0d1b2a 100%)",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontFamily: "Inter, system-ui, sans-serif",
+};
+
+const sectionLabelStyle: React.CSSProperties = {
+  color: TOKENS.mainPurple,
+  fontSize: 16,
+  fontWeight: 600,
+  textTransform: "uppercase",
+  letterSpacing: 3,
+  marginBottom: 10,
+};
+
+const sectionTitleStyle: React.CSSProperties = {
+  color: "#fff",
+  fontSize: 44,
+  fontWeight: 800,
+  textAlign: "center",
+  margin: "0 0 50px 0",
+};
+
+const cardsRowStyle: React.CSSProperties = { display: "flex", gap: 30 };
+
+const kpiLabelStyle: React.CSSProperties = {
+  color: "rgba(148,163,184,0.8)",
+  fontSize: 16,
+  fontWeight: 600,
+  textTransform: "uppercase",
+  letterSpacing: 2,
+};
+
+const rangeRowStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginTop: 4,
+};
+
+const rangeValueStyle: React.CSSProperties = { color: "rgba(148,163,184,0.5)", fontSize: 14 };
+
+const narrationStyle: React.CSSProperties = {
+  color: "rgba(148,163,184,0.5)",
+  fontSize: 18,
+  fontStyle: "italic",
+  marginTop: 40,
+  textAlign: "center",
+  maxWidth: 800,
+  lineHeight: 1.5,
+};
+
+// ---------------------------------------------------------------------------
 
 const KPICard: React.FC<{
   label: string;
@@ -37,15 +97,7 @@ const KPICard: React.FC<{
           gap: 12,
         }}
       >
-        <span
-          style={{
-            color: "rgba(148,163,184,0.8)",
-            fontSize: 16,
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: 2,
-          }}
-        >
+        <span style={kpiLabelStyle}>
           {label}
         </span>
 
@@ -69,17 +121,11 @@ const KPICard: React.FC<{
           delay={delay + 15}
         />
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 4,
-          }}
-        >
-          <span style={{ color: "rgba(148,163,184,0.5)", fontSize: 14 }}>
+        <div style={rangeRowStyle}>
+          <span style={rangeValueStyle}>
             {formatRange(low)}
           </span>
-          <span style={{ color: "rgba(148,163,184,0.5)", fontSize: 14 }}>
+          <span style={rangeValueStyle}>
             {formatRange(high)}
           </span>
         </div>
@@ -90,45 +136,19 @@ const KPICard: React.FC<{
 
 export const KPIDashboardScene: React.FC<Props> = ({ script, financials }) => {
   return (
-    <AbsoluteFill
-      style={{
-        background: "linear-gradient(135deg, #0a0a1a 0%, #111827 50%, #0d1b2a 100%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Inter, system-ui, sans-serif",
-      }}
-    >
+    <AbsoluteFill style={sceneFill}>
       {/* Header */}
       <FadeIn delay={0} direction="down" distance={15}>
-        <p
-          style={{
-            color: "#3B82F6",
-            fontSize: 16,
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: 3,
-            marginBottom: 10,
-          }}
-        >
+        <p style={sectionLabelStyle}>
           Probabilistic Assessment
         </p>
-        <h2
-          style={{
-            color: "#fff",
-            fontSize: 44,
-            fontWeight: 800,
-            textAlign: "center",
-            margin: "0 0 50px 0",
-          }}
-        >
+        <h2 style={sectionTitleStyle}>
           Key Performance Indicators
         </h2>
       </FadeIn>
 
       {/* Three KPI cards */}
-      <div style={{ display: "flex", gap: 30 }}>
+      <div style={cardsRowStyle}>
         <KPICard
           label="Expected ROI"
           value={financials.roi.expected}
@@ -136,8 +156,8 @@ export const KPIDashboardScene: React.FC<Props> = ({ script, financials }) => {
           low={financials.roi.low}
           high={financials.roi.high}
           formatRange={(n) => `${n}x`}
-          color="#3B82F6"
-          bgColor="rgba(59,130,246,0.06)"
+          color={TOKENS.mainPurple}
+          bgColor={`rgba(59,130,246,0.06)`}
           delay={10}
           barPercent={financials.roi.high > 0 ? (financials.roi.expected / financials.roi.high) * 100 : 50}
         />
@@ -149,8 +169,8 @@ export const KPIDashboardScene: React.FC<Props> = ({ script, financials }) => {
           low={financials.npv.low}
           high={financials.npv.high}
           formatRange={(n) => `€${(n / 1_000_000).toFixed(1)}M`}
-          color="#10B981"
-          bgColor="rgba(16,185,129,0.06)"
+          color={TOKENS.green}
+          bgColor={`rgba(16,185,129,0.06)`}
           delay={25}
           barPercent={financials.npv.high > 0 ? (financials.npv.expected / financials.npv.high) * 100 : 50}
         />
@@ -162,8 +182,8 @@ export const KPIDashboardScene: React.FC<Props> = ({ script, financials }) => {
           low={financials.paybackPeriodMonths.low}
           high={financials.paybackPeriodMonths.high}
           formatRange={(n) => `${n} mo`}
-          color="#8B5CF6"
-          bgColor="rgba(139,92,246,0.06)"
+          color={TOKENS.accentPurple}
+          bgColor={`rgba(139,92,246,0.06)`}
           delay={40}
           barPercent={
             financials.paybackPeriodMonths.high !== financials.paybackPeriodMonths.low
@@ -173,24 +193,14 @@ export const KPIDashboardScene: React.FC<Props> = ({ script, financials }) => {
               : 50
           }
         />
-      </div>
+        </div>
 
-      {/* Narration */}
-      <FadeIn delay={70} direction="none">
-        <p
-          style={{
-            color: "rgba(148,163,184,0.5)",
-            fontSize: 18,
-            fontStyle: "italic",
-            marginTop: 40,
-            textAlign: "center",
-            maxWidth: 800,
-            lineHeight: 1.5,
-          }}
-        >
-          {script.narration}
-        </p>
-      </FadeIn>
+        {/* Narration */}
+        <FadeIn delay={70} direction="none">
+          <p style={narrationStyle}>
+            {script.narration}
+          </p>
+        </FadeIn>
     </AbsoluteFill>
   );
 };

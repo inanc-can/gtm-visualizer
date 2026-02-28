@@ -19,6 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://bayescase-dev-hackathonbucketbucket-cbsuchsr.s3.eu-central-1.amazonaws.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
       </body>
